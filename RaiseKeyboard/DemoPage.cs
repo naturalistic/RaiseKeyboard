@@ -11,6 +11,7 @@ namespace RaiseKeyboard
 		private ObservableCollection<string> items = new ObservableCollection<string> { "Apple", "Banana", "Cantaloupe", "Date", "Elderberry", "Fig", "Grape", "Honeydew melon" };
 		private Entry textEntry;
 		private double bottomOffset;
+
 		public DemoPage ()
 		{
 			this.Padding = 0;
@@ -52,16 +53,18 @@ namespace RaiseKeyboard
 			textStack.Children.Add (textButton);
 			mainStack.Children.Add (textStack);
 
-			var spacer = new BoxView () { 
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				HeightRequest = 0,
-			};
-			mainStack.Children.Add (spacer);
+			// This works nicely with stacklayouts but causes issues on listviews as they automatically adjust there size
+//			var spacer = new BoxView () { 
+//				HorizontalOptions = LayoutOptions.FillAndExpand,
+//				HeightRequest = 0,
+//			};
+//			mainStack.Children.Add (spacer);
 
 			// Only required for iOS
 			KeyboardHelper.KeyboardChanged += (sender, e) => {
 				bottomOffset = mainStack.Bounds.Bottom - textStack.Bounds.Bottom;	// This offset allows us to only raise the stack by the amount required to stay above the keyboard. 
 				textStack.TranslationY -= e.Visible ? e.Height - bottomOffset : bottomOffset - e.Height;	// The textStack is translated up, and then returned to original position.
+//				spacer.HeightRequest = e.Visible ? e.Height : -1;
 			};
 			this.Content = mainStack;
 		}
