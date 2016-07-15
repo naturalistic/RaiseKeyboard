@@ -19,12 +19,17 @@ namespace RaiseKeyboard.iOS
 
 		private void OnKeyboardNotification (NSNotification notification)
 		{
+			var duration = (uint)(UIKeyboard.AnimationDurationFromNotification (notification)*1000);
 			var visible = notification.Name == UIKeyboard.WillShowNotification;
 			var keyboardFrame = visible
 				? UIKeyboard.FrameEndFromNotification(notification)
 				: UIKeyboard.FrameBeginFromNotification(notification);
 			if (KeyboardChanged != null) {
-				KeyboardChanged (this, new KeyboardHelperEventArgs (visible, (float)keyboardFrame.Height));
+				KeyboardChanged (this, new KeyboardHelperEventArgs {
+					Visible = visible,
+					Height = (double)keyboardFrame.Height,
+					Duration = duration
+				});
 			}
 		}
 	}

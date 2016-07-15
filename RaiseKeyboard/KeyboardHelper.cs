@@ -33,14 +33,9 @@ namespace RaiseKeyboard
 
 	public class KeyboardHelperEventArgs : EventArgs 
 	{
-		public readonly bool Visible;
-		public readonly float Height;
-
-		public KeyboardHelperEventArgs(bool visible, float height) {
-			Visible = visible;
-			Height = height;
-		}
+		public bool Visible { get; set; }
+		public double Height { get; set; }
+		public uint Duration { get; set; }
 	}
-
 }
 
